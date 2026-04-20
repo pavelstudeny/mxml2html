@@ -7,7 +7,7 @@ description: Guide agents to display, render, visualize, or draw musical notatio
 
 ## Overview
 
-Use this skill to render Western music notation using **Unicode/SMuFL glyphs** styled with CSS as HTML. Every symbol — noteheads, stems, clefs, rests, accidentals, barlines — is a Unicode character rendered with the **MusicaD font** (a BravuraText SMuFL font). No SVG drawing is needed for the symbols themselves.
+Use this skill to render Modern music notation using **Unicode/SMuFL glyphs** styled with CSS as HTML. Every symbol — noteheads, stems, clefs, rests, accidentals, barlines — is a Unicode character rendered with the **MusicaD font** (a BravuraText SMuFL font). No SVG drawing is needed for the symbols themselves.
 
 The 5 staff lines are drawn as a CSS `background-image` using a base64-encoded inline SVG on a positioned `div`. Everything else is relatively-positioned `<span>` elements with `font-family: MusicaD`.
 
@@ -39,6 +39,16 @@ Apply to all music symbols:
 
 ---
 
+## Mucic Notation Transposition
+
+The full range of tones composes of 7 tones (octaves) with tones C, D, E, F, G, B, where the frequency (pitch) of each tones doubles with the next octave. Octaves are numbered. For example, A4 frequency is 440Hz, and A5 is 880Hz.
+
+Normally, the lowest note is C0 (16.35Hz) and the highest is G9 (12543.85Hz), although certain instruments can go beyond this range.
+
+This way, the first C below the staff lines in the treble clef is C4. However, for the purpose of playing various instruments with various tone ranges, musicians would call the first C below the staff lines C1, independently on the actual frequency (261.63 Hz, but also 130.81 Hz or 523.25 Hz).
+
+---
+
 ## Core Layout Model
 
 All music notation is inside a .staff div.
@@ -53,7 +63,7 @@ All music symbols are `<span class="<note type>">` with `position:relative`, whe
 <span class="D1">&#x1D15D;</span> <!-- whole D1 note, stem up -->
 ```
 
-
+---
 
 ## Note (SMuFL Glyph) Positioning
 
@@ -63,18 +73,26 @@ Positioning a note glyph means placing the `<span>` such that its baseline (= CS
 
 Positions for the treble clef:
 
-| Note | top     | Stem direction | `class` |
-|------|---------|----------------|---------|
-| D1   | -0.38em | up             | D1      |
-| E1   | -0.45em | up             | E1      |
-| F1   | -0.52em | up             | F1      |
-| G1   | -0.59em | up             | G1      |
-| A1   | -0.66em | up             | A1      |
-| B1   | -0.73em | up             | B1      |
-| C2   | -0.80em | down           | C2      |
-| D2   | -0.87em | down           | D2      |
-| E2   | -0.94em | down           | E2      |
-| F2   | -1.01em | down           | F2      |
+| Musician-called Note | top     | Stem direction | `class` |
+|----------------------|---------|----------------|---------|
+| D1                   | -0.38em | up             | D4      |
+| E1                   | -0.45em | up             | E4      |
+| F1                   | -0.52em | up             | F4      |
+| G1                   | -0.59em | up             | G4      |
+| A1                   | -0.66em | up             | A4      |
+| B1                   | -0.73em | up             | B4      |
+| C2                   | -0.80em | down           | C5      |
+| D2                   | -0.87em | down           | D5      |
+| E2                   | -0.94em | down           | E5      |
+| F2                   | -1.01em | down           | F5      |
+
+Notes that have stem down have the following a `stemdown` class that creates the steam down effect:
+```css
+.stem-down {
+  /* CSS rules for stem down effect */
+  transform: rotate(180deg) translateY(-0.7em);
+  display: inline-block;}
+```
 
 **Stem rule**: step ≤ 4 (B1 and below) → stem up (`E1D5`, `E1D7`…); step ≥ 5 → stem down (`E1D6`, `E1D8`…).
 
@@ -132,7 +150,7 @@ Position `top` per Note positioning above.
 ### Time Signatures
 Time signature consists of two numbers, where the lower number represents the basic note length (4 = quarter note, 8 = eighth note, etc.) and the upper number represents how many of those notes fit in a measure.
 
-Signatures are rendered as <span><sup>upper number</sup> / <sub>lower number</sub></span>.
+Signatures are rendered as <span><sup>upper number</sup> / <sub>lower number</sub></span>, with font-size:0.7em and top:-0.65em;
 Example:
 ```html
 <span><sup>2</sup>/<sub>4</sub></span>
@@ -263,16 +281,17 @@ With key signature, shift notes right by ~14px per accidental.
 }
 
 .Gclef { font-size:1.5em; top:-0.20em; }
-.D1 { top:-0.38em; }
-.E1 { top:-0.45em; }
-.F1 { top:-0.52em; }
-.G1 { top:-0.59em; }
-.A1 { top:-0.66em; }
-.B1 { top:-0.73em; }
-.C2 { top:-0.80em; }
-.D2 { top:-0.87em; }
-.E2 { top:-0.94em; }
-.F2 { top:-1.01em; }
+.D4 { top:-0.38em; }
+.E4 { top:-0.45em; }
+.F4 { top:-0.52em; }
+.G4 { top:-0.59em; }
+.A4 { top:-0.66em; }
+.B4 { top:-0.73em; }
+.C5 { top:-0.80em; }
+.D5 { top:-0.87em; }
+.E5 { top:-0.94em; }
+.F5 { top:-1.01em; }
+.stem-down { transform: rotate(180deg) translateY(-0.7em); display:inline-block; }
 </style>
 
 <div class="score">
@@ -283,14 +302,14 @@ With key signature, shift notes right by ~14px per accidental.
     <!-- 4/4 time sig: font-size:2em, upper digit top:-0.5em, lower top:0 -->
     <span>4/4</span>
 
-    <!-- D1 half note -->
-    <span class="D1">&#x1D15E;</span>
+    <!-- D4 half note -->
+    <span class="D4">&#x1D15E;</span>
 
-    <!-- E1 quarter note -->
-    <span class="E1">&#x1D15F;</span>
+    <!-- E4 quarter note -->
+    <span class="E4">&#x1D15F;</span>
 
-    <!-- D2 quarter note; stem DOWN -->
-    <span class="D2">&#x1D161;</span>
+    <!-- D5 quarter note; stem DOWN -->
+    <span class="D5 stem-down">&#x1D161;</span>
 
     <!-- Final barline -->
     <span>&#x1D102;</span>
