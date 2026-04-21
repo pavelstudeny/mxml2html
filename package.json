@@ -1,0 +1,10 @@
+{
+  "name": "mxml2html",
+  "version": "1.0.0",
+  "scripts": {
+    "visual-test": "npx ws -p 8777 -d test/testcase"
+  },
+  "dependencies": {
+    "local-web-server": "^5.4.0"
+  }
+}
