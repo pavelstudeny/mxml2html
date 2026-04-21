@@ -1,0 +1,218 @@
+/* ============================================================
+   musicxml.css — HTML/CSS rendering of MusicXML output
+   Font: MusicaD (BravuraText/SMuFL), Unicode music glyphs
+   ============================================================ */
+
+@font-face {
+  font-family: 'MusicaD';
+  src: url('../../fonts/MusicaD.ttf');
+}
+
+/* ------------------------------------------------------------
+   Score container
+   ------------------------------------------------------------ */
+
+.score {
+  padding: 80px 16px 64px;
+  font-family: 'MusicaD', serif;
+  line-height: 1;
+}
+
+/* ------------------------------------------------------------
+   Staff
+   Five lines drawn as a background SVG (light / dark mode).
+   Height = 0.7em (= one interline space × 4 gaps).
+   background-position-y = 0.14em = one interline gap.
+   ------------------------------------------------------------ */
+
+.staff {
+  position: relative;
+  overflow: visible;
+  font-family: 'MusicaD', serif;
+  line-height: 1;
+  white-space: nowrap;
+
+  /* Light-mode staff lines (rgba(0,0,0,0.7)) */
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjEwMCUiIHkyPSIwIiBzdHJva2U9InJnYmEoMCwwLDAsMC43KSIgc3Ryb2tlLXdpZHRoPSIxLjIiLz48bGluZSB4MT0iMCIgeTE9IjI1JSIgeDI9IjEwMCUiIHkyPSIyNSUiIHN0cm9rZT0icmdiYSgwLDAsMCwwLjcpIiBzdHJva2Utd2lkdGg9IjEuMiIvPjxsaW5lIHgxPSIwIiB5MT0iNTAlIiB4Mj0iMTAwJSIgeTI9IjUwJSIgc3Ryb2tlPSJyZ2JhKDAsMCwwLDAuNykiIHN0cm9rZS13aWR0aD0iMS4yIi8+PGxpbmUgeDE9IjAiIHkxPSI3NSUiIHgyPSIxMDAlIiB5Mj0iNzUlIiBzdHJva2U9InJnYmEoMCwwLDAsMC43KSIgc3Ryb2tlLXdpZHRoPSIxLjIiLz48bGluZSB4MT0iMCIgeTE9IjEwMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSIgc3Ryb2tlPSJyZ2JhKDAsMCwwLDAuNykiIHN0cm9rZS13aWR0aD0iMS4yIi8+PC9zdmc+');
+  background-size: 100% 0.7em;
+  background-repeat: no-repeat;
+  background-position-y: 0.14em;
+}
+
+@media (prefers-color-scheme: dark) {
+  .staff {
+    /* Dark-mode staff lines (rgba(255,255,255,0.7)) */
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjEwMCUiIHkyPSIwIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC43KSIgc3Ryb2tlLXdpZHRoPSIxLjIiLz48bGluZSB4MT0iMCIgeTE9IjI1JSIgeDI9IjEwMCUiIHkyPSIyNSUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjcpIiBzdHJva2Utd2lkdGg9IjEuMiIvPjxsaW5lIHgxPSIwIiB5MT0iNTAlIiB4Mj0iMTAwJSIgeTI9IjUwJSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuNykiIHN0cm9rZS13aWR0aD0iMS4yIi8+PGxpbmUgeDE9IjAiIHkxPSI3NSUiIHgyPSIxMDAlIiB5Mj0iNzUlIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC43KSIgc3Ryb2tlLXdpZHRoPSIxLjIiLz48bGluZSB4MT0iMCIgeTE9IjEwMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuNykiIHN0cm9rZS13aWR0aD0iMS4yIi8+PC9zdmc+');
+  }
+}
+
+/* All glyphs are relative spans — never use absolute positioning */
+.staff span {
+  position: relative;
+}
+
+/* ------------------------------------------------------------
+   Stem direction
+   stem-up is the default (precomposed glyphs face up).
+   stem-down rotates 180° and nudges up by one staff height.
+   ------------------------------------------------------------ */
+
+.stem-down {
+  display: inline-block;
+  transform: rotate(180deg) translateY(-0.7em);
+}
+
+/* ------------------------------------------------------------
+   Clefs
+   ------------------------------------------------------------ */
+
+.clef-G {
+  font-size: 1.5em;
+  top: -0.20em;
+}
+
+.clef-F {
+  font-size: 1em;
+  top: 0em;
+}
+
+.clef-C {
+  font-size: 1em;
+  top: 0em;
+}
+
+/* ------------------------------------------------------------
+   Note pitch positions — treble clef (staff-relative top)
+   Class names use musician octave convention (C4 = middle C).
+   Stem-up notes: pitch ≤ B4 → stem up; pitch ≥ C5 → stem down.
+   ------------------------------------------------------------ */
+
+/* Below staff */
+.pitch-C4 { top: -0.31em; } /* ledger line below */
+.pitch-D4 { top: -0.38em; }
+.pitch-E4 { top: -0.45em; }
+.pitch-F4 { top: -0.52em; }
+.pitch-G4 { top: -0.59em; }
+.pitch-A4 { top: -0.66em; }
+.pitch-B4 { top: -0.73em; }
+/* On and above staff */
+.pitch-C5 { top: -0.80em; }
+.pitch-D5 { top: -0.87em; }
+.pitch-E5 { top: -0.94em; }
+.pitch-F5 { top: -1.01em; }
+.pitch-G5 { top: -1.08em; }
+.pitch-A5 { top: -1.15em; }
+.pitch-B5 { top: -1.22em; }
+/* Above staff (ledger lines required) */
+.pitch-C6 { top: -1.29em; }
+.pitch-D6 { top: -1.36em; }
+.pitch-E6 { top: -1.43em; }
+
+/* ------------------------------------------------------------
+   Rests
+   ------------------------------------------------------------ */
+
+.rest-whole   { top: -0.73em; } /* U+1D13B — hangs from line 2 */
+.rest-half    { top: -0.68em; } /* U+1D13C — sits on line 3    */
+.rest-quarter { top: -0.63em; } /* U+1D13D                      */
+.rest-eighth  { top: -0.73em; } /* U+1D13E                      */
+.rest-16th    { top: -0.73em; } /* U+1D13F                      */
+.rest-32nd    { top: -0.73em; }
+.rest-64th    { top: -0.73em; }
+
+/* ------------------------------------------------------------
+   Barlines
+   font-size:1em = staff height; top:0 aligns top-to-bottom.
+   ------------------------------------------------------------ */
+
+.barline {
+  top: -0.38em;
+}
+
+/* ------------------------------------------------------------
+   Time signatures
+   Rendered as <span class="time-sig"><sup>N</sup>/<sub>D</sub></span>
+   ------------------------------------------------------------ */
+
+.time-sig {
+  font-family: sans-serif;
+  font-size: 0.7em;
+  top: -0.65em;
+}
+
+/* ------------------------------------------------------------
+   Accidentals
+   Position just to the left of their notehead at same pitch top.
+   ------------------------------------------------------------ */
+
+.accidental {
+  font-size: 0.85em;
+}
+
+/* ------------------------------------------------------------
+   Augmentation dot
+   ------------------------------------------------------------ */
+
+.aug-dot {
+  font-size: 0.6em;
+  top: -0.5em; /* adjusted per pitch in generated HTML */
+}
+
+/* ------------------------------------------------------------
+   Dynamics — placed below the staff (top: 1em)
+   ------------------------------------------------------------ */
+
+.dynamics {
+  top: 1em;
+  font-size: 1em;
+}
+
+/* ------------------------------------------------------------
+   Articulations
+   above-note: negative top (above notehead)
+   below-note: positive top (below notehead)
+   ------------------------------------------------------------ */
+
+.articulation-above {
+  top: -1.4em;
+  font-size: 0.7em;
+}
+
+.articulation-below {
+  top: 0.8em;
+  font-size: 0.7em;
+}
+
+/* ------------------------------------------------------------
+   Ornaments (trill, turn, mordent)
+   Positioned above the notehead.
+   ------------------------------------------------------------ */
+
+.ornament {
+  top: -1.2em;
+  font-size: 0.75em;
+}
+
+/* ------------------------------------------------------------
+   Fermata
+   ------------------------------------------------------------ */
+
+.fermata {
+  top: -1.5em;
+  font-size: 0.8em;
+}
+
+/* ------------------------------------------------------------
+   Ledger lines
+   Short horizontal rules drawn at the correct pitch position.
+   Implemented as inline-block spans with border-top.
+   ------------------------------------------------------------ */
+
+.ledger {
+  display: inline-block;
+  width: 1.1em;
+  height: 0;
+  border-top: 0.06em solid currentColor;
+  vertical-align: top;
+  margin-left: -1em; /* overlaps the notehead */
+}
