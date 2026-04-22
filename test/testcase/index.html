@@ -27,6 +27,19 @@
 
     header h1 { font-size: 14px; font-weight: 600; }
 
+    .nav-btn {
+      background: none;
+      border: 1px solid #bbb;
+      border-radius: 4px;
+      padding: 2px 8px;
+      font-size: 14px;
+      cursor: pointer;
+      line-height: 1.4;
+      color: #333;
+    }
+    .nav-btn:hover:not(:disabled) { background: #e0e0e0; }
+    .nav-btn:disabled { opacity: 0.35; cursor: default; }
+
     #status {
       font-size: 12px;
       color: #888;
@@ -99,79 +112,24 @@
       #xml-input { background: #111; color: #ccc; }
       #output-pane { background: #111; }
       #output-pane label { background: #111; }
+      .nav-btn { border-color: #555; color: #ccc; }
+      .nav-btn:hover:not(:disabled) { background: #2a2a2a; }
     }
   </style>
 </head>
 <body>
 
 <header>
-  <h1>MusicXML → HTML</h1>
-  <span id="status">loading XSLT…</span>
+  <button class="nav-btn" id="btn-prev" disabled>&#8592;</button>
+  <h1 id="title">…</h1>
+  <button class="nav-btn" id="btn-next">&#8594;</button>
+  <span id="status">loading…</span>
 </header>
 
 <main>
   <div id="input-pane">
     <label for="xml-input">MusicXML input</label>
-    <textarea id="xml-input" spellcheck="false"><?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE score-timewise PUBLIC
-  "-//Recordare//DTD MusicXML 4.0 Timewise//EN"
-  "http://www.musicxml.org/dtds/timewise.dtd">
-<score-timewise version="4.0">
-  <part-list>
-    <score-part id="P1">
-      <part-name>Piano</part-name>
-    </score-part>
-  </part-list>
-  <measure number="1">
-    <part id="P1">
-      <attributes>
-        <divisions>4</divisions>
-        <key><fifths>0</fifths><mode>major</mode></key>
-        <time><beats>4</beats><beat-type>4</beat-type></time>
-        <clef><sign>G</sign><line>2</line></clef>
-      </attributes>
-      <note>
-        <pitch><step>D</step><octave>4</octave></pitch>
-        <duration>4</duration>
-        <type>quarter</type>
-      </note>
-      <note>
-        <pitch><step>E</step><octave>4</octave></pitch>
-        <duration>4</duration>
-        <type>quarter</type>
-      </note>
-      <note>
-        <pitch><step>F</step><octave>4</octave></pitch>
-        <duration>4</duration>
-        <type>quarter</type>
-      </note>
-      <note>
-        <pitch><step>G</step><octave>4</octave></pitch>
-        <duration>4</duration>
-        <type>quarter</type>
-      </note>
-    </part>
-  </measure>
-  <measure number="2">
-    <part id="P1">
-      <note>
-        <pitch><step>A</step><octave>4</octave></pitch>
-        <duration>8</duration>
-        <type>half</type>
-      </note>
-      <note>
-        <rest/>
-        <duration>4</duration>
-        <type>quarter</type>
-      </note>
-      <note>
-        <pitch><step>D</step><octave>4</octave></pitch>
-        <duration>4</duration>
-        <type>quarter</type>
-      </note>
-    </part>
-  </measure>
-</score-timewise></textarea>
+    <textarea id="xml-input" spellcheck="false"></textarea>
   </div>
 
   <div id="output-pane">
@@ -182,35 +140,77 @@
 
 <script type="module">
   const status  = document.getElementById('status');
+  const titleEl = document.getElementById('title');
+  const btnPrev = document.getElementById('btn-prev');
+  const btnNext = document.getElementById('btn-next');
   const input   = document.getElementById('xml-input');
   const output  = document.getElementById('output');
+  const parser  = new DOMParser();
 
   // Load and compile the XSLT stylesheet once.
   const xslt = new XsltProcessor.Xslt();
   let xsltTemplate = null;
+  let currentDoc = parseInt(location.hash.slice(1)) || 1;
+  let preloaded = null; // { n, text } for the next doc
 
   async function loadXslt() {
     const response = await fetch('../../src/xslt/timewise.xslt');
     const text = await response.text();
     xsltTemplate = XsltProcessor.domDocumentToXDocument(
-      new DOMParser().parseFromString(text, 'text/xml')
+      parser.parseFromString(text, 'text/xml')
     );
+  }
+
+  // Extract concatenated part names from a parsed XML document.
+  function extractTitle(xmlDoc) {
+    const names = [...xmlDoc.querySelectorAll('score-timewise part-list score-part part-name')]
+      .map(el => el.textContent.trim())
+      .filter(Boolean);
+    return names.length ? names.join(' · ') : '(untitled)';
+  }
+
+  // Preload the next doc so the → button state is known and navigation is instant.
+  function preloadNext(n) {
+    preloaded = null;
+    fetch(`${n}.musicxml`)
+      .then(async r => {
+        if (!r.ok) { btnNext.disabled = true; return; }
+        const text = await r.text();
+        preloaded = { n, text };
+        btnNext.disabled = false;
+      })
+      .catch(() => { btnNext.disabled = true; });
+  }
+
+  // Load a numbered .musicxml file, populate the textarea, update the title and nav buttons.
+  async function loadDoc(n, text = null) {
+    if (!text) {
+      const response = await fetch(`${n}.musicxml`);
+      if (!response.ok) throw new Error(`${n}.musicxml not found`);
+      text = await response.text();
+    }
+    currentDoc = n;
+    location.hash = n;
+    input.value = text;
+
+    const xmlDoc = parser.parseFromString(text, 'text/xml');
+    titleEl.textContent = extractTitle(xmlDoc);
+
+    btnPrev.disabled = (currentDoc === 1);
+    btnNext.disabled = true; // will be updated by preloadNext
+    preloadNext(currentDoc + 1);
+
+    await transform();
   }
 
   // Transform the current textarea content and update the output div.
   async function transform() {
-    const parser = new DOMParser();
-    if (!xsltTemplate) {
-      return;
-    }
+    if (!xsltTemplate) return;
 
     const xmlText = input.value.trim();
-    if (!xmlText) {
-      return;
-    }
+    if (!xmlText) return;
 
     const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
-    // DOMParser signals parse errors via a <parsererror> element.
     if (xmlDoc.querySelector('parsererror')) {
       status.textContent = 'XML parse error — output unchanged';
       return;
@@ -238,16 +238,30 @@
     status.textContent = 'OK';
   }
 
-  input.addEventListener('input', transform);
+  input.addEventListener('input', () => {
+    const xmlDoc = parser.parseFromString(input.value.trim(), 'text/xml');
+    if (!xmlDoc.querySelector('parsererror')) {
+      titleEl.textContent = extractTitle(xmlDoc);
+    }
+    transform();
+  });
 
+  addEventListener('hashchange', () => {
+    const n = parseInt(location.hash.slice(1));
+    if (n && n !== currentDoc) loadDoc(n).catch(err => { status.textContent = `Error: ${err.message}`; });
+  });
+
+  btnPrev.addEventListener('click', () => loadDoc(currentDoc - 1).catch(err => { status.textContent = `Error: ${err.message}`; }));
+  btnNext.addEventListener('click', () => {
+    const next = currentDoc + 1;
+    const text = preloaded?.n === next ? preloaded.text : null;
+    loadDoc(next, text).catch(err => { status.textContent = `Error: ${err.message}`; });
+  });
+
+  status.textContent = 'loading XSLT…';
   loadXslt()
-    .then(() => {
-      status.textContent = 'XSLT loaded';
-      transform();
-    })
-    .catch(err => {
-      status.textContent = `Error: ${err.message}`;
-    });
+    .then(() => loadDoc(currentDoc))
+    .catch(err => { status.textContent = `Error: ${err.message}`; });
 </script>
 
 </body>
