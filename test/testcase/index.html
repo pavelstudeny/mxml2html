@@ -4,6 +4,7 @@
   <meta charset="UTF-8"/>
   <title>MusicXML → HTML testcase</title>
   <link rel="stylesheet" href="../../src/css/musicxml.css"/>
+  <script src="xslt-processor.global.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -185,25 +186,30 @@
   const output  = document.getElementById('output');
 
   // Load and compile the XSLT stylesheet once.
-  let processor = null;
+  const xslt = new XsltProcessor.Xslt();
+  let xsltTemplate = null;
 
   async function loadXslt() {
     const response = await fetch('../../src/xslt/timewise.xslt');
-    if (!response.ok) throw new Error(`Failed to fetch XSLT: ${response.status}`);
     const text = await response.text();
-    const xsltDoc = new DOMParser().parseFromString(text, 'text/xml');
-    processor = new XSLTProcessor();
-    processor.importStylesheet(xsltDoc);
+    xsltTemplate = XsltProcessor.domDocumentToXDocument(
+      new DOMParser().parseFromString(text, 'text/xml')
+    );
   }
 
   // Transform the current textarea content and update the output div.
-  function transform() {
-    if (!processor) return;
+  async function transform() {
+    const parser = new DOMParser();
+    if (!xsltTemplate) {
+      return;
+    }
 
     const xmlText = input.value.trim();
-    if (!xmlText) return;
+    if (!xmlText) {
+      return;
+    }
 
-    const xmlDoc = new DOMParser().parseFromString(xmlText, 'text/xml');
+    const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
     // DOMParser signals parse errors via a <parsererror> element.
     if (xmlDoc.querySelector('parsererror')) {
       status.textContent = 'XML parse error — output unchanged';
@@ -212,7 +218,11 @@
 
     let result;
     try {
-      result = processor.transformToDocument(xmlDoc);
+      const resultStr = await xslt.xsltProcess(
+        XsltProcessor.domDocumentToXDocument(xmlDoc),
+        xsltTemplate
+      );
+      result = parser.parseFromString(resultStr, 'text/html');
     } catch (err) {
       status.textContent = `XSLT error: ${err.message}`;
       return;
