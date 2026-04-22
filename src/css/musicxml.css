@@ -87,6 +87,14 @@
    Stem-up notes: pitch ≤ B4 → stem up; pitch ≥ C5 → stem down.
    ------------------------------------------------------------ */
 
+/* Below staff (ledger lines required) */
+.pitch-C3 { top:  0.18em; }
+.pitch-D3 { top:  0.11em; }
+.pitch-E3 { top:  0.04em; }
+.pitch-F3 { top: -0.03em; }
+.pitch-G3 { top: -0.10em; }
+.pitch-A3 { top: -0.17em; }
+.pitch-B3 { top: -0.24em; }
 /* Below staff */
 .pitch-C4 { top: -0.31em; } /* ledger line below */
 .pitch-D4 { top: -0.38em; }
@@ -107,6 +115,13 @@
 .pitch-C6 { top: -1.29em; }
 .pitch-D6 { top: -1.36em; }
 .pitch-E6 { top: -1.43em; }
+.pitch-F6 { top: -1.50em; }
+.pitch-G6 { top: -1.57em; }
+.pitch-A6 { top: -1.64em; }
+.pitch-B6 { top: -1.71em; }
+.pitch-C7 { top: -1.78em; }
+.pitch-D7 { top: -1.85em; }
+.pitch-E7 { top: -1.92em; }
 
 /* ------------------------------------------------------------
    Rests
