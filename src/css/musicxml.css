@@ -115,10 +115,10 @@
 .rest-whole   { top: -0.73em; } /* U+1D13B — hangs from line 2 */
 .rest-half    { top: -0.68em; } /* U+1D13C — sits on line 3    */
 .rest-quarter { top: -0.63em; } /* U+1D13D                      */
-.rest-eighth  { top: -0.73em; } /* U+1D13E                      */
-.rest-16th    { top: -0.73em; } /* U+1D13F                      */
-.rest-32nd    { top: -0.73em; }
-.rest-64th    { top: -0.73em; }
+.rest-eighth  { top: -0.73em; } /* U+1D13E — ink: 6px above baseline */
+.rest-16th    { top: -0.56em; } /* U+1D13F — ink 8px higher; compensate 8/48em  */
+.rest-32nd    { top: -0.54em; } /* U+1D140 — ink 16px higher; compensate 16/48em */
+.rest-64th    { top: -0.37em; } /* U+1D141 — ink 24px higher; compensate 24/48em */
 
 /* ------------------------------------------------------------
    Barlines
@@ -127,6 +127,10 @@
 
 .barline {
   top: -0.38em;
+  padding-left: 0.25em;
+  padding-right: 0.25em;}
+span.barline:last-of-type {
+    padding-right: 0;
 }
 
 /* ------------------------------------------------------------
@@ -138,6 +142,7 @@
   font-family: sans-serif;
   font-size: 0.7em;
   top: -0.65em;
+  padding-right: 0.5em;
 }
 
 /* ------------------------------------------------------------
