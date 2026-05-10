@@ -125,14 +125,25 @@
         <xsl:with-param name="type" select="type"/>
       </xsl:call-template>
     </xsl:variable>
-    <xsl:choose>
-      <xsl:when test="$octave >= 5">
-        <span class="{$pitch-class} stem-down"><xsl:value-of select="$glyph"/></span>
-      </xsl:when>
-      <xsl:otherwise>
-        <span class="{$pitch-class}"><xsl:value-of select="$glyph"/></span>
-      </xsl:otherwise>
-    </xsl:choose>
+    <span>
+      <xsl:attribute name="class">
+        <xsl:value-of select="$pitch-class"/>
+        <xsl:if test="$octave >= 5"> stem-down</xsl:if>
+        <xsl:if test="beam">
+          <xsl:text> </xsl:text>
+          <xsl:choose>
+            <xsl:when test="type = 'eighth'">beam8</xsl:when>
+            <xsl:when test="type = '16th'">beam16</xsl:when>
+            <xsl:when test="type = '32nd'">beam32</xsl:when>
+            <xsl:when test="type = '64th'">beam64</xsl:when>
+            <xsl:when test="type = '128th'">beam128</xsl:when>
+          </xsl:choose>
+          <xsl:if test="beam = 'begin'"> beam-begin</xsl:if>
+          <xsl:if test="beam = 'end'"> beam-end</xsl:if>
+        </xsl:if>
+      </xsl:attribute>
+      <xsl:value-of select="$glyph"/>
+    </span>
   </xsl:template>
 
   <!-- ============================================================
@@ -144,6 +155,8 @@
       <xsl:when test="$type = 'whole'">&#x1D15D;</xsl:when>
       <xsl:when test="$type = 'half'">&#x1D15E;</xsl:when>
       <xsl:when test="$type = 'quarter'">&#x1D15F;</xsl:when>
+      <!-- beamed eighth/shorter: beam replaces flag, use plain black notehead -->
+      <xsl:when test="beam and ($type = 'eighth' or $type = '16th' or $type = '32nd' or $type = '64th' or $type = '128th')">&#x1D158;</xsl:when>
       <xsl:when test="$type = 'eighth'">&#x1D160;</xsl:when>
       <xsl:when test="$type = '16th'">&#x1D161;</xsl:when>
       <xsl:when test="$type = '32nd'">&#x1D162;</xsl:when>

@@ -223,6 +223,92 @@ span.barline:last-of-type {
 }
 
 /* ------------------------------------------------------------
+   Beamed notes — stem drawn as vertical SVG background line
+   ------------------------------------------------------------ */
+
+.beam8, .beam16, .beam32, .beam64, .beam128 {
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMDAlIiBzdHJva2U9InJnYigwLDAsMCkiIHN0cm9rZS13aWR0aD0iMSIvPjwvc3ZnPg==');
+  background-repeat: no-repeat;
+  background-size: 2px 0.7em;
+  background-position-x: calc(100% - 0.05em);
+  background-position-y: 0.2em;
+  padding-left: 0.05em;
+  padding-right: 0.05em;
+}
+
+/* Pitches with ledger lines combined with beam stem (two background layers) */
+.pitch-C3:is(.beam8,.beam16,.beam32,.beam64,.beam128) {
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMDAlIiBzdHJva2U9InJnYigwLDAsMCkiIHN0cm9rZS13aWR0aD0iMSIvPjwvc3ZnPg=='),
+                    url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjEwMCUiIHkyPSIwIiBzdHJva2U9InJnYmEoMCwwLDAsMC43KSIgc3Ryb2tlLXdpZHRoPSIxLjIiIC8+PGxpbmUgeDE9IjAiIHkxPSIzMyUiIHgyPSIxMDAlIiB5Mj0iMzMlIiBzdHJva2U9InJnYmEoMCwwLDAsMC43KSIgc3Ryb2tlLXdpZHRoPSIxLjIiIC8+PGxpbmUgeDE9IjAiIHkxPSI2NiUiIHgyPSIxMDAlIiB5Mj0iNjYlIiBzdHJva2U9InJnYmEoMCwwLDAsMC43KSIgc3Ryb2tlLXdpZHRoPSIxLjIiIC8+PGxpbmUgeDE9IjAiIHkxPSIxMDAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiIHN0cm9rZT0icmdiYSgwLDAsMCwwLjcpIiBzdHJva2Utd2lkdGg9IjEuMiIgLz48L3N2Zz4=');
+  background-repeat: no-repeat, no-repeat;
+  background-size: 2px 0.7em, 100% 0.52em;
+  background-position: calc(100% - 0.05em) 0.2em, 0 0.29em;
+}
+.pitch-D3:is(.beam8,.beam16,.beam32,.beam64,.beam128) {
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMDAlIiBzdHJva2U9InJnYigwLDAsMCkiIHN0cm9rZS13aWR0aD0iMSIvPjwvc3ZnPg=='),
+                    url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjEwMCUiIHkyPSIwIiBzdHJva2U9InJnYmEoMCwwLDAsMC43KSIgc3Ryb2tlLXdpZHRoPSIxLjIiIC8+PGxpbmUgeDE9IjAiIHkxPSIzMyUiIHgyPSIxMDAlIiB5Mj0iMzMlIiBzdHJva2U9InJnYmEoMCwwLDAsMC43KSIgc3Ryb2tlLXdpZHRoPSIxLjIiIC8+PGxpbmUgeDE9IjAiIHkxPSI2NiUiIHgyPSIxMDAlIiB5Mj0iNjYlIiBzdHJva2U9InJnYmEoMCwwLDAsMC43KSIgc3Ryb2tlLXdpZHRoPSIxLjIiIC8+PGxpbmUgeDE9IjAiIHkxPSIxMDAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiIHN0cm9rZT0icmdiYSgwLDAsMCwwLjcpIiBzdHJva2Utd2lkdGg9IjEuMiIgLz48L3N2Zz4=');
+  background-repeat: no-repeat, no-repeat;
+  background-size: 2px 0.7em, 100% 0.52em;
+  background-position: calc(100% - 0.05em) 0.2em, 0 0.37em;
+}
+.pitch-E3:is(.beam8,.beam16,.beam32,.beam64,.beam128) {
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMDAlIiBzdHJva2U9InJnYigwLDAsMCkiIHN0cm9rZS13aWR0aD0iMSIvPjwvc3ZnPg=='),
+                    url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjEwMCUiIHkyPSIwIiBzdHJva2U9InJnYmEoMCwwLDAsMC43KSIgc3Ryb2tlLXdpZHRoPSIxLjIiIC8+PGxpbmUgeDE9IjAiIHkxPSI1MCUiIHgyPSIxMDAlIiB5Mj0iNTAlIiBzdHJva2U9InJnYmEoMCwwLDAsMC43KSIgc3Ryb2tlLXdpZHRoPSIxLjIiIC8+PGxpbmUgeDE9IjAiIHkxPSIxMDAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiIHN0cm9rZT0icmdiYSgwLDAsMCwwLjcpIiBzdHJva2Utd2lkdGg9IjEuMiIgLz48L3N2Zz4=');
+  background-repeat: no-repeat, no-repeat;
+  background-size: 2px 0.7em, 100% 0.34em;
+  background-position: calc(100% - 0.05em) 0.2em, 0 0.48em;
+}
+.pitch-F3:is(.beam8,.beam16,.beam32,.beam64,.beam128) {
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMDAlIiBzdHJva2U9InJnYigwLDAsMCkiIHN0cm9rZS13aWR0aD0iMSIvPjwvc3ZnPg=='),
+                    url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjEwMCUiIHkyPSIwIiBzdHJva2U9InJnYmEoMCwwLDAsMC43KSIgc3Ryb2tlLXdpZHRoPSIxLjIiIC8+PGxpbmUgeDE9IjAiIHkxPSI1MCUiIHgyPSIxMDAlIiB5Mj0iNTAlIiBzdHJva2U9InJnYmEoMCwwLDAsMC43KSIgc3Ryb2tlLXdpZHRoPSIxLjIiIC8+PGxpbmUgeDE9IjAiIHkxPSIxMDAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiIHN0cm9rZT0icmdiYSgwLDAsMCwwLjcpIiBzdHJva2Utd2lkdGg9IjEuMiIgLz48L3N2Zz4=');
+  background-repeat: no-repeat, no-repeat;
+  background-size: 2px 0.7em, 100% 0.34em;
+  background-position: calc(100% - 0.05em) 0.2em, 0 0.55em;
+}
+.pitch-G3:is(.beam8,.beam16,.beam32,.beam64,.beam128) {
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMDAlIiBzdHJva2U9InJnYigwLDAsMCkiIHN0cm9rZS13aWR0aD0iMSIvPjwvc3ZnPg=='),
+                    url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjEwMCUiIHkyPSIwIiBzdHJva2U9InJnYmEoMCwwLDAsMC43KSIgc3Ryb2tlLXdpZHRoPSIxLjIiIC8+PGxpbmUgeDE9IjAiIHkxPSIxMDAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiIHN0cm9rZT0icmdiYSgwLDAsMCwwLjcpIiBzdHJva2Utd2lkdGg9IjEuMiIgLz48L3N2Zz4=');
+  background-repeat: no-repeat, no-repeat;
+  background-size: 2px 0.7em, 100% 0.18em;
+  background-position: calc(100% - 0.05em) 0.2em, 0 0.64em;
+}
+.pitch-A3:is(.beam8,.beam16,.beam32,.beam64,.beam128) {
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMDAlIiBzdHJva2U9InJnYigwLDAsMCkiIHN0cm9rZS13aWR0aD0iMSIvPjwvc3ZnPg=='),
+                    url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjEwMCUiIHkyPSIwIiBzdHJva2U9InJnYmEoMCwwLDAsMC43KSIgc3Ryb2tlLXdpZHRoPSIxLjIiIC8+PGxpbmUgeDE9IjAiIHkxPSIxMDAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiIHN0cm9rZT0icmdiYSgwLDAsMCwwLjcpIiBzdHJva2Utd2lkdGg9IjEuMiIgLz48L3N2Zz4=');
+  background-repeat: no-repeat, no-repeat;
+  background-size: 2px 0.7em, 100% 0.18em;
+  background-position: calc(100% - 0.05em) 0.2em, 0 0.71em;
+}
+.pitch-B3:is(.beam8,.beam16,.beam32,.beam64,.beam128) {
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMDAlIiBzdHJva2U9InJnYigwLDAsMCkiIHN0cm9rZS13aWR0aD0iMSIvPjwvc3ZnPg=='),
+                    url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjEwMCUiIHkyPSIwIiBzdHJva2U9InJnYmEoMCwwLDAsMC43KSIgc3Ryb2tlLXdpZHRoPSIxLjIiIC8+PC9zdmc+');
+  background-repeat: no-repeat, no-repeat;
+  background-size: 2px 0.7em, auto;
+  background-position: calc(100% - 0.05em) 0.2em, 0 0.8em;
+}
+.pitch-C4:is(.beam8,.beam16,.beam32,.beam64,.beam128) {
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMDAlIiBzdHJva2U9InJnYigwLDAsMCkiIHN0cm9rZS13aWR0aD0iMSIvPjwvc3ZnPg=='),
+                    url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjEwMCUiIHkyPSIwIiBzdHJva2U9InJnYmEoMCwwLDAsMC43KSIgc3Ryb2tlLXdpZHRoPSIxLjIiIC8+PC9zdmc+');
+  background-repeat: no-repeat, no-repeat;
+  background-size: 2px 0.7em, auto;
+  background-position: calc(100% - 0.05em) 0.2em, 0 0.88em;
+}
+.pitch-A5:is(.beam8,.beam16,.beam32,.beam64,.beam128) {
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMDAlIiBzdHJva2U9InJnYigwLDAsMCkiIHN0cm9rZS13aWR0aD0iMSIvPjwvc3ZnPg=='),
+                    url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjEwMCUiIHkyPSIwIiBzdHJva2U9InJnYmEoMCwwLDAsMC43KSIgc3Ryb2tlLXdpZHRoPSIxLjIiIC8+PC9zdmc+');
+  background-repeat: no-repeat, no-repeat;
+  background-size: 2px 0.7em, auto;
+  background-position: calc(100% - 0.05em) 0.2em, 0 0.14em;
+}
+.pitch-B5:is(.beam8,.beam16,.beam32,.beam64,.beam128) {
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxMDAlIiBzdHJva2U9InJnYigwLDAsMCkiIHN0cm9rZS13aWR0aD0iMSIvPjwvc3ZnPg=='),
+                    url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjEwMCUiIHkyPSIwIiBzdHJva2U9InJnYmEoMCwwLDAsMC43KSIgc3Ryb2tlLXdpZHRoPSIxLjIiIC8+PC9zdmc+');
+  background-repeat: no-repeat, no-repeat;
+  background-size: 2px 0.7em, auto;
+  background-position: calc(100% - 0.05em) 0.2em, 0 0em;
+}
+
+/* ------------------------------------------------------------
    Ledger lines
    Short horizontal rules drawn at the correct pitch position.
    Implemented as inline-block spans with border-top.
