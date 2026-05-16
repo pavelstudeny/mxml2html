@@ -322,3 +322,69 @@ span.barline:last-of-type {
   vertical-align: top;
   margin-left: -1em; /* overlaps the notehead */
 }
+
+/* ------------------------------------------------------------
+   Beams
+   ------------------------------------------------------------ */
+.beam {
+  anchor-scope: all;
+}
+.beam .beam-begin {
+  anchor-name: --beam-begin;
+}
+.beam .beam-end {
+  anchor-name: --beam-end;
+}
+.beam .beam-container {
+  padding: 0;
+  position: absolute;
+  container-type: size;
+  left:  anchor(--beam-begin right);
+  right: anchor(--beam-end right);
+  pointer-events: none;
+  transform: translate(-0.08em, 0.2em);
+}
+
+.beam .beam-uphill {
+  position: absolute;
+  top:    anchor(--beam-end top);
+  bottom: anchor(--beam-begin top);
+}
+
+.beam .beam-downhill {
+  position: absolute;
+  top:    anchor(--beam-begin top);
+  bottom: anchor(--beam-end top);
+}
+
+.beam .beam-skew {
+  position: relative;
+  width: 100%;
+  background: repeating-linear-gradient(to bottom, black 0 0.1em, transparent 0.1em 0.15em);
+}
+
+
+@container (height > 0) {
+  .beam8 .beam-skew {
+    height: 0.1em;
+  }
+  .beam16 .beam-skew {
+    height: 0.25em;
+  }
+  .beam32 .beam-skew {
+    height: 0.4em;
+  }
+  .beam64 .beam-skew {
+    height: 0.55em;
+  }
+}
+
+
+.beam .beam-uphill .beam-skew {
+  transform: skewY(atan2(-100cqh, 100cqw));
+  transform-origin: top right;
+}
+.beam .beam-downhill .beam-skew {
+  transform: skewY(atan2(100cqh, 100cqw));
+  transform-origin: top left;
+}

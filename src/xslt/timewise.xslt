@@ -52,8 +52,11 @@
         <xsl:apply-templates select="$part/attributes/clef"/>
         <xsl:apply-templates select="$part/attributes/time"/>
 
-        <!-- Notes -->
-        <xsl:apply-templates select="$part/note"/>
+        <!-- Notes (with beam groups wrapped in <span class="beam">) -->
+        <xsl:call-template name="process-notes">
+          <xsl:with-param name="notes" select="$part/note"/>
+          <xsl:with-param name="pos" select="1"/>
+        </xsl:call-template>
 
         <!-- Barline: use explicit right barline if present, else generate one -->
         <xsl:choose>
@@ -108,6 +111,84 @@
       <xsl:when test="pitch">
         <xsl:call-template name="pitched-note"/>
       </xsl:when>
+    </xsl:choose>
+  </xsl:template>
+
+  <!-- ============================================================
+       Process notes, wrapping beam groups (from <beam>begin</beam>
+       through <beam>end</beam>) inside <span class="beam">.
+       ============================================================ -->
+  <xsl:template name="process-notes">
+    <xsl:param name="notes"/>
+    <xsl:param name="pos"/>
+    <xsl:if test="$pos &lt;= count($notes)">
+      <xsl:variable name="current" select="$notes[$pos]"/>
+      <xsl:choose>
+        <xsl:when test="$current/beam = 'begin'">
+          <!-- Find the position of the matching 'end' beam note. -->
+          <xsl:variable name="end-pos">
+            <xsl:call-template name="find-beam-end">
+              <xsl:with-param name="notes" select="$notes"/>
+              <xsl:with-param name="pos"   select="$pos + 1"/>
+              <xsl:with-param name="total" select="count($notes)"/>
+            </xsl:call-template>
+          </xsl:variable>
+          <!-- Beam line container class; derived from the end note's type. -->
+          <xsl:variable name="beam-class">
+            <xsl:choose>
+              <xsl:when test="$notes[number($end-pos)]/type = 'eighth'">beam8</xsl:when>
+              <xsl:when test="$notes[number($end-pos)]/type = '16th'">beam16</xsl:when>
+              <xsl:when test="$notes[number($end-pos)]/type = '32nd'">beam32</xsl:when>
+              <xsl:when test="$notes[number($end-pos)]/type = '64th'">beam64</xsl:when>
+              <xsl:when test="$notes[number($end-pos)]/type = '128th'">beam128</xsl:when>
+              <xsl:otherwise>beam8</xsl:otherwise>
+            </xsl:choose>
+          </xsl:variable>
+          <span class="beam">
+            <xsl:for-each select="$notes[position() &gt;= $pos and position() &lt;= number($end-pos)]">
+              <xsl:apply-templates select="."/>
+            </xsl:for-each>
+            <span class="{$beam-class} beam-container beam-uphill"><div class="beam-skew"><xsl:text> </xsl:text></div></span>
+            <span class="{$beam-class} beam-container beam-downhill"><div class="beam-skew"><xsl:text> </xsl:text></div></span>
+          </span>
+          <xsl:call-template name="process-notes">
+            <xsl:with-param name="notes" select="$notes"/>
+            <xsl:with-param name="pos"   select="number($end-pos) + 1"/>
+          </xsl:call-template>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:apply-templates select="$current"/>
+          <xsl:call-template name="process-notes">
+            <xsl:with-param name="notes" select="$notes"/>
+            <xsl:with-param name="pos"   select="$pos + 1"/>
+          </xsl:call-template>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:if>
+  </xsl:template>
+
+  <!-- ============================================================
+       Return the position (within $notes) of the next note whose
+       <beam> child equals 'end'. Falls back to $total if none found.
+       ============================================================ -->
+  <xsl:template name="find-beam-end">
+    <xsl:param name="notes"/>
+    <xsl:param name="pos"/>
+    <xsl:param name="total"/>
+    <xsl:choose>
+      <xsl:when test="$pos &gt; $total">
+        <xsl:value-of select="$total"/>
+      </xsl:when>
+      <xsl:when test="$notes[$pos]/beam = 'end'">
+        <xsl:value-of select="$pos"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:call-template name="find-beam-end">
+          <xsl:with-param name="notes" select="$notes"/>
+          <xsl:with-param name="pos"   select="$pos + 1"/>
+          <xsl:with-param name="total" select="$total"/>
+        </xsl:call-template>
+      </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
 
