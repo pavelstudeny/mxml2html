@@ -11,6 +11,9 @@ Demo
 
 See MusicXML samples and their HTML + CSS rendering in [test/testcase](https://htmlpreview.github.io/?https://github.com/pavelstudeny/mxml2html/blob/master/test/testcase/index.html#1).
 
+<img src="doc/demo.png" width="80%"/>
+
+
 FAQ
 ---
 
