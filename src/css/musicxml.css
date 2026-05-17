@@ -37,6 +37,11 @@
   background-size: 100% 0.7em;
   background-repeat: no-repeat;
   background-position-y: 0.14em;
+/*
+  display: flex;
+  flex-wrap: wrap;
+  https://stackoverflow.com/questions/8274048/how-to-wrap-many-span-within-div
+*/
 }
 
 @media (prefers-color-scheme: dark) {
@@ -355,6 +360,12 @@ span.barline:last-of-type {
   position: absolute;
   top:    anchor(--beam-begin top);
   bottom: anchor(--beam-end top);
+}
+
+.beam .beam-straight {
+  position: absolute;
+  top:    anchor(--beam-begin top);
+  height: 1px;
 }
 
 .beam .beam-skew {

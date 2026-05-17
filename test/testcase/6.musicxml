@@ -66,7 +66,7 @@
       </note>
     </part>
   </measure>
-  <measure number="2">
+  <measure number="3">
     <part id="P1">
       <note>
         <pitch><step>F</step><octave>4</octave></pitch>
@@ -78,29 +78,29 @@
         <pitch><step>E</step><octave>4</octave></pitch>
         <duration>4</duration>
         <type>16th</type>
-        <beam number="1">continue</beam>
+        <beam number="1">end</beam>
       </note>
       <note>
         <pitch><step>D</step><octave>4</octave></pitch>
         <duration>4</duration>
         <type>16th</type>
-        <beam number="1">continue</beam>
+        <beam number="2">begin</beam>
       </note>
       <note>
-        <pitch><step>C</step><octave>4</octave></pitch>
+        <pitch><step>G</step><octave>4</octave></pitch>
         <duration>4</duration>
         <type>16th</type>
-        <beam number="1">end</beam>
+        <beam number="2">end</beam>
       </note>
 
       <note>
-        <pitch><step>C</step><octave>4</octave></pitch>
+        <pitch><step>E</step><octave>4</octave></pitch>
         <duration>2</duration>
         <type>32nd</type>
         <beam number="1">begin</beam>
       </note>
       <note>
-        <pitch><step>D</step><octave>4</octave></pitch>
+        <pitch><step>E</step><octave>4</octave></pitch>
         <duration>2</duration>
         <type>32nd</type>
         <beam number="1">continue</beam>
@@ -112,7 +112,7 @@
         <beam number="1">continue</beam>
       </note>
       <note>
-        <pitch><step>F</step><octave>4</octave></pitch>
+        <pitch><step>E</step><octave>4</octave></pitch>
         <duration>2</duration>
         <type>32nd</type>
         <beam number="1">end</beam>

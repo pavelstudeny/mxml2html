@@ -148,8 +148,16 @@
             <xsl:for-each select="$notes[position() &gt;= $pos and position() &lt;= number($end-pos)]">
               <xsl:apply-templates select="."/>
             </xsl:for-each>
-            <span class="{$beam-class} beam-container beam-uphill"><div class="beam-skew"><xsl:text> </xsl:text></div></span>
-            <span class="{$beam-class} beam-container beam-downhill"><div class="beam-skew"><xsl:text> </xsl:text></div></span>
+            <xsl:choose>
+              <xsl:when test="$current/pitch/step = $notes[number($end-pos)]/pitch/step
+                          and $current/pitch/octave = $notes[number($end-pos)]/pitch/octave">
+                <span class="{$beam-class} beam-container beam-straight"><div class="beam-skew"><xsl:text> </xsl:text></div></span>
+              </xsl:when>
+              <xsl:otherwise>
+                <span class="{$beam-class} beam-container beam-uphill"><div class="beam-skew"><xsl:text> </xsl:text></div></span>
+                <span class="{$beam-class} beam-container beam-downhill"><div class="beam-skew"><xsl:text> </xsl:text></div></span>
+              </xsl:otherwise>
+            </xsl:choose>
           </span>
           <xsl:call-template name="process-notes">
             <xsl:with-param name="notes" select="$notes"/>
