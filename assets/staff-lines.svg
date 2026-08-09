@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg">
-<line x1="0" y1="0" x2="100%" y2="0" stroke="rgba(0,0,0,0.7)" stroke-width="1.2"/>
-<line x1="0" y1="25%" x2="100%" y2="25%" stroke="rgba(0,0,0,0.7)" stroke-width="1.2"/>
+<line x1="0" y1="0" x2="100%" y2="0" stroke="rgba(0,0,0,0.7)" stroke-width="1.2" transform="translate(0,0.6)"/>
+<line x1="0" y1="25%" x2="100%" y2="25%" stroke="rgba(0,0,0,0.7)" stroke-width="1.2" transform="translate(0,0.3)"/>
 <line x1="0" y1="50%" x2="100%" y2="50%" stroke="rgba(0,0,0,0.7)" stroke-width="1.2"/>
-<line x1="0" y1="75%" x2="100%" y2="75%" stroke="rgba(0,0,0,0.7)" stroke-width="1.2"/>
-<line x1="0" y1="100%" x2="100%" y2="100%" stroke="rgba(0,0,0,0.7)" stroke-width="1.2"/>
+<line x1="0" y1="75%" x2="100%" y2="75%" stroke="rgba(0,0,0,0.7)" stroke-width="1.2" transform="translate(0,-0.3)"/>
+<line x1="0" y1="100%" x2="100%" y2="100%" stroke="rgba(0,0,0,0.7)" stroke-width="1.2" transform="translate(0,-0.6)"/>
 </svg>
